@@ -90,6 +90,7 @@ offset = Vector2(0, -4)
 script = ExtResource("7_77jpp")
 
 [node name="Label" type="Label" parent="Camera2D"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -106,7 +107,7 @@ label_settings = SubResource("LabelSettings_gsy4o")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Camera2D/Label"]
+[node name="RestartButton" type="Button" parent="Camera2D/Label"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -119,9 +120,11 @@ offset_right = 82.0
 offset_bottom = 144.5
 grow_horizontal = 2
 grow_vertical = 2
+disabled = true
+action_mode = 0
 text = "Restart"
 
-[node name="Button2" type="Button" parent="Camera2D/Label"]
+[node name="ExitButton" type="Button" parent="Camera2D/Label"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -134,6 +137,7 @@ offset_right = 81.0
 offset_bottom = 226.5
 grow_horizontal = 2
 grow_vertical = 2
+disabled = true
 text = "Exit Game"
 
 [node name="Astroid_Normal" parent="." instance=ExtResource("7_l3ucb")]

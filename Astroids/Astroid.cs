@@ -28,7 +28,6 @@ public partial class Astroid : CharacterBody2D
 			Velocity = velocity;
 			MoveAndSlide();
 
-			GD.Print(GetSlideCollisionCount());
 			for(int i = 0; i < GetSlideCollisionCount(); i++)
 			{
 				var collision = GetSlideCollision(i);
