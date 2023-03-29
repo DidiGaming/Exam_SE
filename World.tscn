@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d1dq1iye458ub" path="res://Images/Player_Character_Image.png" id="2_hqa01"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w50gq"]
-radius = 48.28
+radius = 50.0
 
 [node name="World" type="Node2D"]
 
@@ -21,3 +21,8 @@ texture = ExtResource("2_hqa01")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Playership"]
 scale = Vector2(1.04, 0.439995)
 shape = SubResource("CircleShape2D_w50gq")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-64, -64, 1216, -64, 1216, 704, -64, 704, -64, -56, 0, 0, 0, 648, 1152, 648, 1152, 0, 0, 0, -64, -56)
