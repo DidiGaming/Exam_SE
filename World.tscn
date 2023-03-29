@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://stffhrbsvwkr"]
+[gd_scene load_steps=15 format=3 uid="uid://ckkwssuj1r5nl"]
 
 [ext_resource type="Script" path="res://Player/Playership.cs" id="1_4s62b"]
 [ext_resource type="Shader" path="res://Moving_Background.gdshader" id="1_gonna"]
@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d24p4dtth3tq0" path="res://Images/science-fiction-1424446_1920.jpg" id="3_lcsgg"]
 [ext_resource type="Texture2D" uid="uid://dmo8uhlkmk1vn" path="res://Images/Astroids_Background.png" id="4_jvxsa"]
 [ext_resource type="Script" path="res://Camera2D.cs" id="7_77jpp"]
-[ext_resource type="PackedScene" uid="uid://bxvitdjejse4y" path="res://Astroids/Astroid_Normal.tscn" id="7_l3ucb"]
+[ext_resource type="PackedScene" uid="uid://qe887jxigi4v" path="res://Astroids/Astroidpool.tscn" id="8_mvekj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ibn3e"]
 shader = ExtResource("1_gonna")
@@ -24,6 +24,9 @@ shader = ExtResource("1_gonna")
 shader_parameter/direction = Vector2(1, 0)
 shader_parameter/speedscale = 0.008
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ltjvx"]
+size = Vector2(20, 704)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_w50gq"]
 radius = 50.0
 
@@ -35,7 +38,9 @@ outline_color = Color(0, 0, 0, 1)
 
 [node name="World" type="Node2D"]
 
-[node name="Space_BG" type="TextureRect" parent="."]
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Space_BG" type="TextureRect" parent="Background"]
 material = SubResource("ShaderMaterial_ibn3e")
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -43,7 +48,7 @@ texture = ExtResource("3_lcsgg")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="Planet_BG" type="TextureRect" parent="."]
+[node name="Planet_BG" type="TextureRect" parent="Background"]
 material = SubResource("ShaderMaterial_upyog")
 offset_left = -20.0
 offset_top = 4.0
@@ -53,7 +58,7 @@ texture = ExtResource("3_66nw4")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="Astroids_BG" type="TextureRect" parent="."]
+[node name="Astroids_BG" type="TextureRect" parent="Background"]
 material = SubResource("ShaderMaterial_0x18k")
 offset_left = -63.0
 offset_top = -49.0
@@ -63,11 +68,22 @@ texture = ExtResource("4_jvxsa")
 expand_mode = 1
 stretch_mode = 1
 
+[node name="KillZone" type="Area2D" parent="."]
+position = Vector2(-136, 320)
+disable_mode = 1
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
+scale = Vector2(5, 1)
+shape = SubResource("RectangleShape2D_ltjvx")
+
 [node name="Playership" type="CharacterBody2D" parent="." groups=["Player"]]
-position = Vector2(71, 320)
-collision_layer = 3
+position = Vector2(72, 264)
+collision_layer = 6
 collision_mask = 3
 motion_mode = 1
+wall_min_slide_angle = 3.14159
 script = ExtResource("1_4s62b")
 metadata/_edit_group_ = true
 
@@ -82,7 +98,10 @@ shape = SubResource("CircleShape2D_w50gq")
 [node name="ScreenFrame" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ScreenFrame"]
-polygon = PackedVector2Array(-64, -64, 1216, -64, 1216, 704, -64, 704, -64, -56, 0, 0, 0, 648, 1152, 648, 1152, 0, 0, 0, -64, -56)
+polygon = PackedVector2Array(-64, -64, 512, -64, 512, 0, 0, 0, 0, 648, 512, 648, 512, 704, -64, 704)
+
+[node name="Astroidpool" parent="." instance=ExtResource("8_mvekj")]
+position = Vector2(1344, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 328)
@@ -139,12 +158,3 @@ grow_horizontal = 2
 grow_vertical = 2
 disabled = true
 text = "Exit Game"
-
-[node name="Astroid_Normal" parent="." instance=ExtResource("7_l3ucb")]
-position = Vector2(806, 126)
-
-[node name="Astroid_Normal2" parent="." instance=ExtResource("7_l3ucb")]
-position = Vector2(940, 129)
-
-[node name="Astroid_Normal3" parent="." instance=ExtResource("7_l3ucb")]
-position = Vector2(1080, 128)

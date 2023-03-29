@@ -4,7 +4,7 @@ using System;
 public partial class Playership : CharacterBody2D
 {
 	public const float Speed = 300.0f;
-	private int _health = 3;
+	private int _health = 300;
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -23,6 +23,7 @@ public partial class Playership : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+		this.Position = new Vector2(71, this.Position.Y);
 
 		//GD.Print(_health);
 	}
@@ -39,6 +40,7 @@ public partial class Playership : CharacterBody2D
 	
 	private void Death()
 	{
+		GetNode<Sprite2D>("Sprite2D").Visible = false;
 		Camera2D camera = GetTree().Root.GetNode("World").GetNode<Camera2D>("Camera2D");
 		camera.ShowGameOverText();
 	}
