@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxvitdjejse4y"]
+
+[ext_resource type="Script" path="res://Astroids/Astroid.cs" id="1_8ejm5"]
+[ext_resource type="Texture2D" uid="uid://d06k7tycc8jv0" path="res://Images/Astroids/NormalSize/a10011 - Kopie.png" id="2_klxeq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uxa2y"]
+radius = 22.0227
+
+[node name="Astroid_Normal" type="CharacterBody2D"]
+scale = Vector2(2, 2)
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_8ejm5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_klxeq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_uxa2y")
