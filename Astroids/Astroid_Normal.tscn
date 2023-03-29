@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_uxa2y"]
 radius = 22.0227
 
-[node name="Astroid_Normal" type="CharacterBody2D"]
+[node name="Astroid_Normal" type="CharacterBody2D" groups=["Astroid"]]
 scale = Vector2(2, 2)
 collision_layer = 2
 collision_mask = 12

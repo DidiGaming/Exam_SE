@@ -3,12 +3,14 @@ using System;
 
 public partial class Astroid : CharacterBody2D
 {
-	private float _speed = (float)GD.RandRange(80f, 150f);
+	private float _speed = (float)GD.RandRange(120f, 200f);
 	private Playership _playership;
 	private Sprite2D _sprite;
 	private AstroidPool _pool;
 	private Area2D _killzone;
 	private bool _isMoving = false;
+	private const int HEALTH = 14;
+	private int _health;
 	public override void _Ready()
 	{
 		_sprite = this.GetNode<Sprite2D>("Sprite2D");
@@ -16,11 +18,6 @@ public partial class Astroid : CharacterBody2D
 		_pool = GetTree().Root.GetNode("World").GetNode<AstroidPool>("Astroidpool");
 		_killzone = GetTree().Root.GetNode("World").GetNode<Area2D>("KillZone");
 		_killzone.BodyEntered += Kill;
-		//_isMoving = true;
-	}
-
-	public override void _Process(double delta)
-	{
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -36,7 +33,7 @@ public partial class Astroid : CharacterBody2D
 			for(int i = 0; i < GetSlideCollisionCount(); i++)
 			{
 				var collision = GetSlideCollision(i);
-				GD.Print(((Node)collision.GetCollider()).Name);
+
 				if(((Node)collision.GetCollider()).Name == "Playership")
 				{
 					_playership.DamagePlayer();
@@ -82,7 +79,21 @@ public partial class Astroid : CharacterBody2D
 		if(node == this)
 		{
 			ReturnToPool();
-			GD.Print("asdasdasdasd");
 		}
+	}
+
+	public void TakeDamage(int damage)
+	{
+		_health -= damage;
+
+		if(_health <= 0 )
+		{
+			ReturnToPool();
+		}
+	}
+
+	public void ResetHealth()
+	{
+		_health = HEALTH;
 	}
 }

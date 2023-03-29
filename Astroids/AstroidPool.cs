@@ -41,7 +41,8 @@ public partial class AstroidPool : Node2D
 			random = (int)GD.RandRange(0, 39);
 		}
 
-		Vector2 startPos = new Vector2(0, (int)GD.RandRange(50, GetViewport().GetVisibleRect().Size.Y - 50));
+		Vector2 startPos = new Vector2(0, (int)GD.RandRange(30, GetViewport().GetVisibleRect().Size.Y - 30));
+		_astroidPool[random].ResetHealth();
 		_astroidPool[random].Position = startPos;
 		_astroidPool[random].SetIsMoving(true);
 		_astroidPool[random].SetVisibilty(true);
