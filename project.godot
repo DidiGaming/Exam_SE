@@ -11,9 +11,22 @@ config_version=5
 [application]
 
 config/name="Exam_SE"
-config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://icon.svg"
+run/main_scene="res://World.tscn"
+config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 
 [dotnet]
 
 project/assembly_name="Exam_SE"
+
+[input]
+
+MoveUp={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+MoveDown={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
