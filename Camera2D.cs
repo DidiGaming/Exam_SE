@@ -10,7 +10,7 @@ public partial class Camera2D : Godot.Camera2D
 	private Button _restartButton;
 	private Button _exitButton;
 	private Playership _playership;
-	private int _timeleft = 100; 
+	private int _timeleft = 60; 
 	public override void _Ready()
 	{
 		_label = GetNode<Label>("Label");
@@ -65,6 +65,8 @@ public partial class Camera2D : Godot.Camera2D
 			_label.Visible = true;
 			_restartButton.Disabled = false;
 			_exitButton.Disabled = false;
+			GetTree().Root.GetNode("World").GetNode<AstroidPool>("Astroidpool").QueueFree();
+			_playership.FlyAway();
 		}		
 	}
 }

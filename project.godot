@@ -14,6 +14,11 @@ config/name="Exam_SE"
 run/main_scene="res://World.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 
+[display]
+
+window/size/resizable=false
+window/stretch/mode="viewport"
+
 [dotnet]
 
 project/assembly_name="Exam_SE"

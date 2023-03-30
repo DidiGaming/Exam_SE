@@ -14,6 +14,7 @@ public partial class Playership : CharacterBody2D
 	[Signal] public delegate void healthChangedEventHandler(int newHealth);
 	private BulletStats _bulletSpawn;
 	private int _bulletsToSpawn;
+	private bool _playing = true;
 
 	public override void _Ready()
 	{
@@ -21,23 +22,26 @@ public partial class Playership : CharacterBody2D
 	}
 	public override void _Process(double delta)
 	{
-		if(Input.IsActionPressed("Shoot"))
+		if(_playing)
 		{
-			_shooting = true;
-		} 
-		if(Input.IsActionJustReleased("Shoot"))
-		{
-			_shooting = false;
-		} 
-		if(_shooting)
-		{
-			del_sum += delta;
-			if(del_sum > _bulletSpawnDelay)
+			if(Input.IsActionPressed("Shoot"))
 			{
-				remainder = del_sum % _bulletSpawnDelay;
-				_bulletsToSpawn = Mathf.CeilToInt((del_sum - remainder) / _bulletSpawnDelay);
-				FireBullet(_bulletsToSpawn);
-				del_sum = remainder;
+				_shooting = true;
+			} 
+			if(Input.IsActionJustReleased("Shoot"))
+			{
+				_shooting = false;
+			} 
+			if(_shooting)
+			{
+				del_sum += delta;
+				if(del_sum > _bulletSpawnDelay)
+				{
+					remainder = del_sum % _bulletSpawnDelay;
+					_bulletsToSpawn = Mathf.CeilToInt((del_sum - remainder) / _bulletSpawnDelay);
+					FireBullet(_bulletsToSpawn);
+					del_sum = remainder;
+				}
 			}
 		}
 	}
@@ -46,18 +50,25 @@ public partial class Playership : CharacterBody2D
 		Vector2 velocity = Velocity;
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "MoveUp", "MoveDown");
 		
-		if (direction != Vector2.Zero)
+		if(_playing)
 		{
-			velocity.Y = direction.Y * _SPEED;
+			if (direction != Vector2.Zero)
+			{
+				velocity.Y = direction.Y * _SPEED;
+			}
+			else
+			{
+				velocity.Y = Mathf.MoveToward(Velocity.Y, 0, _SPEED);
+			}			
 		}
 		else
 		{
-			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, _SPEED);
+			velocity.Y = 0;
+			velocity.X = _SPEED;
 		}
-
 		Velocity = velocity;
 		MoveAndSlide();
-		this.Position = new Vector2(71, this.Position.Y);
+		if(_playing){this.Position = new Vector2(71, this.Position.Y);}
 	}
 
 	public void DamagePlayer()
@@ -94,5 +105,10 @@ public partial class Playership : CharacterBody2D
 			Vector2 spawnPosition = new Vector2(this.Position.X + 40, this.Position.Y);
 			bullet.Position = spawnPosition;
 		}
+	}
+
+	public void FlyAway()
+	{
+		_playing = false;
 	}
 }
