@@ -20,7 +20,7 @@ public partial class AstroidPool : Node2D
 
 	public override void _Process(double delta)
 	{
-		if(_activeAstroids < 30)
+		if(_activeAstroids < _astroidPool.Length - 5)
 		{
 			_spawnDelay = (float)GD.RandRange(0.5f, 1.5f);
 			if(_timer >= _spawnDelay)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dded3sqprtrpd"]
+[gd_scene load_steps=19 format=3 uid="uid://dded3sqprtrpd"]
 
 [ext_resource type="Script" path="res://Player/Playership.cs" id="1_4s62b"]
 [ext_resource type="Shader" path="res://Shader/Moving_Background.gdshader" id="1_sljhp"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://coj1qmg1dd1kx" path="res://Images/Planet.png" id="3_66nw4"]
 [ext_resource type="Texture2D" uid="uid://d24p4dtth3tq0" path="res://Images/science-fiction-1424446_1920.jpg" id="3_lcsgg"]
 [ext_resource type="Texture2D" uid="uid://dmo8uhlkmk1vn" path="res://Images/Astroids_Background.png" id="4_jvxsa"]
+[ext_resource type="Script" path="res://BulletKillZone.cs" id="5_67l7g"]
 [ext_resource type="Script" path="res://Camera2D.cs" id="7_77jpp"]
 [ext_resource type="Script" path="res://Player/BulletStats.cs" id="7_q7jjl"]
 [ext_resource type="PackedScene" uid="uid://qe887jxigi4v" path="res://Astroids/Astroidpool.tscn" id="8_mvekj"]
@@ -59,23 +60,21 @@ stretch_mode = 1
 material = SubResource("ShaderMaterial_upyog")
 offset_left = -20.0
 offset_top = 4.0
-offset_right = 1218.0
-offset_bottom = 705.0
+offset_right = 1153.0
+offset_bottom = 648.0
 texture = ExtResource("3_66nw4")
 expand_mode = 1
 stretch_mode = 1
 
 [node name="Astroids_BG" type="TextureRect" parent="Background"]
 material = SubResource("ShaderMaterial_0x18k")
-offset_left = -63.0
-offset_top = -49.0
-offset_right = 1218.0
-offset_bottom = 692.0
+offset_right = 1151.0
+offset_bottom = 648.0
 texture = ExtResource("4_jvxsa")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="KillZone" type="Area2D" parent="." groups=["Killzone"]]
+[node name="KillZone" type="Area2D" parent="."]
 position = Vector2(-195, 320)
 disable_mode = 1
 collision_layer = 8
@@ -89,9 +88,11 @@ shape = SubResource("RectangleShape2D_ltjvx")
 position = Vector2(1528, 323)
 disable_mode = 1
 collision_layer = 8
-collision_mask = 18
+collision_mask = 16
+script = ExtResource("5_67l7g")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone2" groups=["Killzone"]]
+position = Vector2(-284, 0)
 scale = Vector2(5, 0.972303)
 shape = SubResource("RectangleShape2D_ltjvx")
 
@@ -204,3 +205,5 @@ label_settings = SubResource("LabelSettings_e06xc")
 
 [node name="Timer" type="Timer" parent="Camera2D"]
 autostart = true
+
+[connection signal="body_entered" from="KillZone2" to="KillZone2" method="_on_body_entered"]

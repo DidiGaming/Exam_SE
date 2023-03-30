@@ -13,6 +13,7 @@ public partial class Playership : CharacterBody2D
 	private bool _shooting = false;
 	[Signal] public delegate void healthChangedEventHandler(int newHealth);
 	private BulletStats _bulletSpawn;
+	private int _bulletsToSpawn;
 
 	public override void _Ready()
 	{
@@ -34,7 +35,8 @@ public partial class Playership : CharacterBody2D
 			if(del_sum > _bulletSpawnDelay)
 			{
 				remainder = del_sum % _bulletSpawnDelay;
-				FireBullet();
+				_bulletsToSpawn = Mathf.CeilToInt((del_sum - remainder) / _bulletSpawnDelay);
+				FireBullet(_bulletsToSpawn);
 				del_sum = remainder;
 			}
 		}
@@ -82,12 +84,15 @@ public partial class Playership : CharacterBody2D
 		return _health;
 	}
 
-	private void FireBullet()
+	private void FireBullet(int bullet_num)
 	{
-		Bullet bullet = (Bullet)_bulletScene.Instantiate();
-		GetTree().Root.GetNode("World").GetNode<Node2D>("Bullets").AddChild(bullet);
-		bullet.SetStats(_bulletSpawn);
-		Vector2 spawnPosition = new Vector2(this.Position.X + 40, this.Position.Y);
-		bullet.Position = spawnPosition;
+		for (int i = 0; i < bullet_num; i++)
+		{
+			Bullet bullet = (Bullet)_bulletScene.Instantiate();
+			GetTree().Root.GetNode("World").GetNode<Node2D>("Bullets").AddChild(bullet);
+			bullet.SetStats(_bulletSpawn);
+			Vector2 spawnPosition = new Vector2(this.Position.X + 40, this.Position.Y);
+			bullet.Position = spawnPosition;
+		}
 	}
 }

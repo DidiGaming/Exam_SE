@@ -22,7 +22,7 @@ public partial class Bullet : CharacterBody2D
 				DestroyBullet();
 				break;
 			}
-			else if(((Node)collision.GetCollider()).IsInGroup("Killzone"))
+			else if(((Node)collision.GetCollider()).Name == "KillZone2")
 			{
 				DestroyBullet();
 				break;

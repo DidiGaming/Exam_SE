@@ -9,6 +9,7 @@
 scale = Vector2(0.3, 0.3)
 collision_layer = 16
 collision_mask = 10
+motion_mode = 1
 script = ExtResource("1_axy7m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
