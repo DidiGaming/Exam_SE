@@ -205,5 +205,3 @@ label_settings = SubResource("LabelSettings_e06xc")
 
 [node name="Timer" type="Timer" parent="Camera2D"]
 autostart = true
-
-[connection signal="body_entered" from="KillZone2" to="KillZone2" method="_on_body_entered"]
