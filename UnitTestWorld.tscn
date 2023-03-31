@@ -1,0 +1,127 @@
+[gd_scene load_steps=10 format=3 uid="uid://db8ulov3sm4f2"]
+
+[ext_resource type="Script" path="res://Player/Playership.cs" id="1_fs0af"]
+[ext_resource type="Texture2D" uid="uid://d1dq1iye458ub" path="res://Images/Player_Character_Image.png" id="2_jysc0"]
+[ext_resource type="Script" path="res://Player/BulletStats.cs" id="3_jugsr"]
+[ext_resource type="Script" path="res://Camera2D.cs" id="4_mhdc3"]
+[ext_resource type="Script" path="res://UnitTest/Test.cs" id="5_frdlq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w50gq"]
+radius = 50.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_gsy4o"]
+font_size = 80
+font_color = Color(1, 0, 0, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fhsnx"]
+font_size = 29
+
+[sub_resource type="LabelSettings" id="LabelSettings_e06xc"]
+font_size = 29
+
+[node name="World" type="Node2D"]
+
+[node name="Playership" type="CharacterBody2D" parent="."]
+position = Vector2(79, 309)
+collision_layer = 6
+collision_mask = 3
+motion_mode = 1
+wall_min_slide_angle = 3.14159
+script = ExtResource("1_fs0af")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Playership"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_jysc0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Playership"]
+scale = Vector2(1.04, 0.439995)
+shape = SubResource("CircleShape2D_w50gq")
+
+[node name="BulletSpawn" type="Marker2D" parent="Playership"]
+position = Vector2(36, 0)
+script = ExtResource("3_jugsr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 328)
+offset = Vector2(0, -4)
+script = ExtResource("4_mhdc3")
+
+[node name="Label" type="Label" parent="Camera2D"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -114.0
+offset_right = 214.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_gsy4o")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="Camera2D/Label"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = 77.5
+offset_right = 82.0
+offset_bottom = 144.5
+grow_horizontal = 2
+grow_vertical = 2
+disabled = true
+action_mode = 0
+text = "Restart"
+
+[node name="ExitButton" type="Button" parent="Camera2D/Label"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = 159.5
+offset_right = 81.0
+offset_bottom = 226.5
+grow_horizontal = 2
+grow_vertical = 2
+disabled = true
+text = "Exit Game"
+
+[node name="PlayerHealthInterface" type="Label" parent="Camera2D"]
+offset_left = -552.0
+offset_top = -312.0
+offset_right = -408.0
+offset_bottom = -269.0
+text = "Health: "
+label_settings = SubResource("LabelSettings_fhsnx")
+
+[node name="Countdown" type="Label" parent="Camera2D"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = -313.0
+offset_right = 20.0
+offset_bottom = -290.0
+grow_horizontal = 2
+text = "Time Left: "
+label_settings = SubResource("LabelSettings_e06xc")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+autostart = true
+
+[node name="Testrunner" type="Node2D" parent="."]
+script = ExtResource("5_frdlq")

@@ -5,6 +5,7 @@ public partial class Playership : CharacterBody2D
 {
 	private const float _SPEED = 300.0f;
 	private const float _FIRERATE = 10;
+	public bool isAlive = true;
 	private PackedScene _bulletScene = ResourceLoader.Load<PackedScene>("res://Player/Bullet.tscn");
 	private float _bulletSpawnDelay = 1/_FIRERATE;
 	private double del_sum;
@@ -22,7 +23,7 @@ public partial class Playership : CharacterBody2D
 	}
 	public override void _Process(double delta)
 	{
-		if(_playing)
+		if(_playing && isAlive)
 		{
 			if(Input.IsActionPressed("Shoot"))
 			{
@@ -50,7 +51,7 @@ public partial class Playership : CharacterBody2D
 		Vector2 velocity = Velocity;
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "MoveUp", "MoveDown");
 		
-		if(_playing)
+		if(_playing || isAlive)
 		{
 			if (direction != Vector2.Zero)
 			{
@@ -85,6 +86,8 @@ public partial class Playership : CharacterBody2D
 	
 	private void Death()
 	{
+		isAlive = false;
+		this.ProcessMode = ProcessModeEnum.Disabled;
 		GetNode<Sprite2D>("Sprite2D").Visible = false;
 		Camera2D camera = GetTree().Root.GetNode("World").GetNode<Camera2D>("Camera2D");
 		camera.ShowGameOverText();
@@ -110,5 +113,16 @@ public partial class Playership : CharacterBody2D
 	public void FlyAway()
 	{
 		_playing = false;
+	}
+
+	// For Testing
+	public void SetShooting(bool state)
+	{
+		_shooting = state;
+	}
+
+	public void SetBulletSpawnDelay(float firerate)
+	{
+		_bulletSpawnDelay = 1/firerate;
 	}
 }

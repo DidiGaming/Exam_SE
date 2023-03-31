@@ -69,4 +69,9 @@ public partial class Camera2D : Godot.Camera2D
 			_playership.FlyAway();
 		}		
 	}
+
+	public Label GetMenu()
+	{
+		return _label;
+	}
 }

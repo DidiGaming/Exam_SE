@@ -1,0 +1,209 @@
+[gd_scene load_steps=19 format=3 uid="uid://d230ekkrq63lv"]
+
+[ext_resource type="Shader" path="res://Shader/Moving_Background.gdshader" id="1_cgiab"]
+[ext_resource type="Texture2D" uid="uid://d24p4dtth3tq0" path="res://Images/science-fiction-1424446_1920.jpg" id="2_5h7gn"]
+[ext_resource type="Texture2D" uid="uid://coj1qmg1dd1kx" path="res://Images/Planet.png" id="3_igr4h"]
+[ext_resource type="Texture2D" uid="uid://dmo8uhlkmk1vn" path="res://Images/Astroids_Background.png" id="4_vw54d"]
+[ext_resource type="Script" path="res://BulletKillZone.cs" id="5_alvbx"]
+[ext_resource type="Script" path="res://Player/Playership.cs" id="6_uqipa"]
+[ext_resource type="Texture2D" uid="uid://d1dq1iye458ub" path="res://Images/Player_Character_Image.png" id="7_t3yl2"]
+[ext_resource type="Script" path="res://Player/BulletStats.cs" id="8_4disb"]
+[ext_resource type="PackedScene" uid="uid://qe887jxigi4v" path="res://Astroids/Astroidpool.tscn" id="9_gh0qv"]
+[ext_resource type="Script" path="res://Camera2D.cs" id="10_shw0e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ibn3e"]
+shader = ExtResource("1_cgiab")
+shader_parameter/direction = Vector2(1, 0)
+shader_parameter/speedscale = 0.002
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_upyog"]
+shader = ExtResource("1_cgiab")
+shader_parameter/direction = Vector2(1, 0)
+shader_parameter/speedscale = 0.003
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0x18k"]
+shader = ExtResource("1_cgiab")
+shader_parameter/direction = Vector2(1, 0)
+shader_parameter/speedscale = 0.008
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ltjvx"]
+size = Vector2(29.4, 704)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w50gq"]
+radius = 50.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_gsy4o"]
+font_size = 80
+font_color = Color(1, 0, 0, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fhsnx"]
+font_size = 29
+
+[sub_resource type="LabelSettings" id="LabelSettings_e06xc"]
+font_size = 29
+
+[node name="World" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Space_BG" type="TextureRect" parent="Background"]
+material = SubResource("ShaderMaterial_ibn3e")
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_5h7gn")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Planet_BG" type="TextureRect" parent="Background"]
+material = SubResource("ShaderMaterial_upyog")
+offset_left = -20.0
+offset_top = 4.0
+offset_right = 1153.0
+offset_bottom = 648.0
+texture = ExtResource("3_igr4h")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Astroids_BG" type="TextureRect" parent="Background"]
+material = SubResource("ShaderMaterial_0x18k")
+offset_right = 1151.0
+offset_bottom = 648.0
+texture = ExtResource("4_vw54d")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="KillZone" type="Area2D" parent="."]
+position = Vector2(-195, 320)
+disable_mode = 1
+collision_layer = 8
+collision_mask = 18
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
+scale = Vector2(5, 1)
+shape = SubResource("RectangleShape2D_ltjvx")
+
+[node name="KillZone2" type="Area2D" parent="." groups=["Killzone"]]
+position = Vector2(1528, 323)
+disable_mode = 1
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("5_alvbx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone2" groups=["Killzone"]]
+position = Vector2(-284, 0)
+scale = Vector2(5, 0.972303)
+shape = SubResource("RectangleShape2D_ltjvx")
+
+[node name="Playership" type="CharacterBody2D" parent="."]
+position = Vector2(79, 309)
+collision_layer = 6
+collision_mask = 3
+motion_mode = 1
+wall_min_slide_angle = 3.14159
+script = ExtResource("6_uqipa")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Playership"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("7_t3yl2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Playership"]
+scale = Vector2(1.04, 0.439995)
+shape = SubResource("CircleShape2D_w50gq")
+
+[node name="BulletSpawn" type="Marker2D" parent="Playership"]
+position = Vector2(36, 0)
+script = ExtResource("8_4disb")
+
+[node name="Bullets" type="Node2D" parent="."]
+
+[node name="ScreenFrame" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ScreenFrame"]
+polygon = PackedVector2Array(-64, -64, 512, -64, 512, 0, 0, 0, 0, 648, 512, 648, 512, 704, -64, 704)
+
+[node name="Astroidpool" parent="." instance=ExtResource("9_gh0qv")]
+position = Vector2(1344, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 328)
+offset = Vector2(0, -4)
+script = ExtResource("10_shw0e")
+
+[node name="Label" type="Label" parent="Camera2D"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -114.0
+offset_right = 214.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_gsy4o")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="Camera2D/Label"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = 77.5
+offset_right = 82.0
+offset_bottom = 144.5
+grow_horizontal = 2
+grow_vertical = 2
+disabled = true
+action_mode = 0
+text = "Restart"
+
+[node name="ExitButton" type="Button" parent="Camera2D/Label"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = 159.5
+offset_right = 81.0
+offset_bottom = 226.5
+grow_horizontal = 2
+grow_vertical = 2
+disabled = true
+text = "Exit Game"
+
+[node name="PlayerHealthInterface" type="Label" parent="Camera2D"]
+offset_left = -552.0
+offset_top = -312.0
+offset_right = -408.0
+offset_bottom = -269.0
+text = "Health: "
+label_settings = SubResource("LabelSettings_fhsnx")
+
+[node name="Countdown" type="Label" parent="Camera2D"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = -313.0
+offset_right = 20.0
+offset_bottom = -290.0
+grow_horizontal = 2
+text = "Time Left: "
+label_settings = SubResource("LabelSettings_e06xc")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+autostart = true
+
+[node name="TestRunnerFirerate" type="Node2D" parent="."]

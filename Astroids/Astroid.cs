@@ -96,4 +96,9 @@ public partial class Astroid : CharacterBody2D
 	{
 		_health = HEALTH;
 	}
+
+	public int GetHealth()
+	{
+		return _health;
+	}
 }

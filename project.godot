@@ -14,6 +14,10 @@ config/name="Exam_SE"
 run/main_scene="res://World.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 
+[autoload]
+
+BehaviourTestFirerate="*res://UnitTest/BehaviourTestFirerate.cs"
+
 [display]
 
 window/size/resizable=false
